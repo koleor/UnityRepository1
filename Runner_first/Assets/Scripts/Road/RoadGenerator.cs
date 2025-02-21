@@ -13,7 +13,7 @@ public class RoadGenerator : MonoBehaviour
     void Start()
     {
         ResetLevel();
-        StartLevel();
+        //StartLevel();
     }
 
     // Update is called once per frame
@@ -25,12 +25,19 @@ public class RoadGenerator : MonoBehaviour
             foreach(GameObject road in roads)
             {
                 road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
+                if(road.transform.position.z < -10)
+                {
+                    Destroy(road);
+                    roads.Remove(road);
+                    CreateNextRoad();
+                }
             }
         }
     }
 
     private void CreateNextRoad()
     {
+        Debug.Log(roads.Count);
         Vector3 pos = Vector3.zero;
         if(roads.Count > 0){ pos = roads[roads.Count-1].transform.position + new Vector3(0,0,10);}
         GameObject go = Instantiate(RoadPrefab, pos, Quaternion.identity);
@@ -50,7 +57,7 @@ public class RoadGenerator : MonoBehaviour
             Destroy(roads[0]);
             roads.RemoveAt(0);
         }
-        for (int i = 0; i< maxRoadCount; i++)
+        for (int i = 0; i<maxRoadCount; i++)
         {
             CreateNextRoad();
         }
