@@ -37,7 +37,7 @@ public class RoadGenerator : MonoBehaviour
 
     private void CreateNextRoad()
     {
-        Debug.Log(roads.Count);
+
         Vector3 pos = Vector3.zero;
         if(roads.Count > 0){ pos = roads[roads.Count-1].transform.position + new Vector3(0,0,10);}
         GameObject go = Instantiate(RoadPrefab, pos, Quaternion.identity);
