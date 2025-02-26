@@ -48,6 +48,7 @@ public class RoadGenerator : MonoBehaviour
     public void StartLevel()
     {
         speed = maxSpeed;
+        SwipeManag.instance.enabled = true;
     }
     public void ResetLevel()
     {
@@ -61,5 +62,6 @@ public class RoadGenerator : MonoBehaviour
         {
             CreateNextRoad();
         }
+         SwipeManag.instance.enabled = false;
     }
 }

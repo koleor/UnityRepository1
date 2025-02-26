@@ -14,6 +14,12 @@ public enum Direction{
     Down
 };
 bool[] swipe = new bool[4]; 
+
+public delegate void MoveDelegate(bool [] swipes);
+public MoveDelegate MoveEvent;
+
+public delegate void ClickDelegate(Vector2 pos);
+public ClickDelegate ClickEvent;
     Vector2 TouchPosition()
     {
         return (Vector2)Input.mousePosition;
@@ -42,6 +48,10 @@ bool[] swipe = new bool[4];
     // Update is called once per frame
     void Update()
     {
+        if(UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         if(TouchBegan()){
             startTouch = TouchPosition();
             touchMoved = true;
@@ -94,10 +104,12 @@ bool[] swipe = new bool[4];
         if (swipe[0] || swipe[1] || swipe [2] || swipe[3])
         {
            Debug.Log(swipe[0] + "|" + swipe[1] +"|"+ swipe[2] + "|"+ swipe[3]);
+           MoveEvent?.Invoke(swipe);
         }
         else
         {
            Debug.Log("No Swipe");
+           ClickEvent?.Invoke(TouchPosition());
         }
         Reset();
     }
